@@ -82,7 +82,7 @@ metadata {
         command 'keyPress', [[name:'Key Press Action', type: 'ENUM', constraints: [
                 'Home',      'Back',       'FindRemote',  'Select',        'Up',        'Down',       'Left',        'Right',
                 'Play',      'Rev',        'Fwd',         'InstantReplay', 'Info',      'Search',     'Backspace',   'Enter',
-                'VolumeUp',     'VolumeDown', 'VolumeMute',  'Power',         'PowerOff',
+                'VolumeUp',     'VolumeDown', 'VolumeMute',  'PwrOn',  'Power',         'PowerOff', 
                 'ChannelUp', 'ChannelDown', 'InputTuner', 'InputAV1',      'InputHDMI1', 'InputHDMI2', 'InputHDMI3', 'InputHDMI4'] ] ]
         
         command 'reloadApps'
@@ -105,7 +105,7 @@ preferences {
         'Up',        'Down',       'Left',        'Right',
         'Play',      'Rev',        'Fwd',         'InstantReplay',
         'Info',      'Search',     'Backspace',   'Enter',
-        'VolumeUp',  'VolumeDown', 'VolumeMute',
+        'VolumeUp',  'VolumeDown', 'VolumeMute', 'PwrOn', 
         'Power',     'PowerOff',   'ChannelUp',   'ChannelDown'
         ]
     List keys=[]
@@ -314,6 +314,11 @@ void on() {
 void off() {
     sendEvent(name: 'switch', value: 'off')
     keyPress('PowerOff')
+}
+void PwrOn() {
+    if (device.currentValue('switch') == 'off') { sendWakeUp() }
+    sendEvent(name: 'switch', value: 'on')
+    keyPress('PwrOn')
 }
 
 void home() {
@@ -669,7 +674,7 @@ private def isValidKey(key) {
         'Up',        'Down',       'Left',        'Right',
         'Play',      'Rev',        'Fwd',         'InstantReplay',
         'Info',      'Search',     'Backspace',   'Enter',
-        'VolumeUp',  'VolumeDown', 'VolumeMute',
+        'VolumeUp',  'VolumeDown', 'VolumeMute', 'PwrOn',
         'Power',     'PowerOff',
         'ChannelUp', 'ChannelDown','InputTuner', 'InputAV1',
         'InputHDMI1','InputHDMI2', 'InputHDMI3', 'InputHDMI4' 
